@@ -2,8 +2,8 @@ name: Actualizar precio del aceite
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Todos los días a las 6:00 UTC
-  workflow_dispatch:  # Permite ejecutarlo manualmente
+    - cron: '0 6 * * *'  # Todos los días a las 06:00 UTC
+  workflow_dispatch:  # Permite ejecutarlo manualmente también
 
 jobs:
   actualizar:
@@ -21,14 +21,15 @@ jobs:
       - name: Instalar dependencias
         run: pip install requests beautifulsoup4
 
-      - name: Ejecutar scraper
+      - name: Ejecutar script scraper.py
         run: python scraper.py
 
-      - name: Confirmar cambios
+      - name: Confirmar y subir cambios
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           git add precio-aceite.json
           git commit -m "Actualizar precio automáticamente"
           git push
-        continue-on-error: true
+        continue-on-error: false
+
