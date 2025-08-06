@@ -15,18 +15,32 @@
     fetch('precio-aceite.json')
       .then(response => response.json())
       .then(data => {
-        document.getElementById('precio').textContent = data.precio + " €";
-        document.getElementById('fecha').textContent = data.fecha;
+        // Mostrar el precio
+        document.getElementById('precio').textContent = data.precio
+          ? data.precio + " €"
+          : "No disponible";
 
-        const actualizacion = new Date(data.actualizado);
-        document.getElementById('actualizado').textContent = 
-          isNaN(actualizacion) ? "Fecha inválida" : actualizacion.toLocaleString();
+        // Mostrar la fecha
+        document.getElementById('fecha').textContent = data.fecha
+          ? data.fecha
+          : "No disponible";
+
+        // Mostrar la última modificación
+        if (data.actualizado) {
+          const fechaActualizada = new Date(data.actualizado);
+          const esValida = !isNaN(fechaActualizada);
+          document.getElementById('actualizado').textContent = esValida
+            ? fechaActualizada.toLocaleString()
+            : "Fecha inválida";
+        } else {
+          document.getElementById('actualizado').textContent = "No disponible";
+        }
       })
       .catch(error => {
-        document.getElementById('precio').textContent = "No disponible";
-        document.getElementById('fecha').textContent = "No disponible";
-        document.getElementById('actualizado').textContent = "No disponible";
-        console.error("❌ Error al cargar el precio:", error);
+        document.getElementById('precio').textContent = "Error al cargar";
+        document.getElementById('fecha').textContent = "Error al cargar";
+        document.getElementById('actualizado').textContent = "Error al cargar";
+        console.error("❌ Error al obtener los datos:", error);
       });
   </script>
 </body>
