@@ -3,7 +3,7 @@ name: Actualizar precio del aceite
 on:
   schedule:
     - cron: '0 6 * * *'  # Todos los días a las 6:00 UTC
-  workflow_dispatch:     # Permite ejecutarlo manualmente
+  workflow_dispatch:     # También puede ejecutarse manualmente
 
 jobs:
   actualizar:
@@ -23,6 +23,7 @@ jobs:
 
       - name: Ejecutar scraper
         run: python scraper.py
+        continue-on-error: true  # Esto evita que falle todo el flujo si el scraping da error
 
       - name: Confirmar y hacer push de los cambios
         run: |
