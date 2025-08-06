@@ -17,12 +17,16 @@
       .then(data => {
         document.getElementById('precio').textContent = data.precio + " €";
         document.getElementById('fecha').textContent = data.fecha;
-        document.getElementById('actualizado').textContent = new Date(data.actualizado).toLocaleString();
+
+        const actualizacion = new Date(data.actualizado);
+        document.getElementById('actualizado').textContent = 
+          isNaN(actualizacion) ? "Fecha inválida" : actualizacion.toLocaleString();
       })
       .catch(error => {
         document.getElementById('precio').textContent = "No disponible";
         document.getElementById('fecha').textContent = "No disponible";
         document.getElementById('actualizado').textContent = "No disponible";
+        console.error("❌ Error al cargar el precio:", error);
       });
   </script>
 </body>
