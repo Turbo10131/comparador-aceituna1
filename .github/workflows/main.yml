@@ -33,6 +33,3 @@ jobs:
           git commit -m "Actualizar precio automáticamente"
           git push
         continue-on-error: false
-
-
-
