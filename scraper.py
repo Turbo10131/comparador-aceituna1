@@ -15,6 +15,7 @@ def obtener_precio_desde_aove():
 
     soup = BeautifulSoup(response.text, "html.parser")
     posibles_precios = soup.find_all("strong")
+
     for item in posibles_precios:
         texto = item.get_text(strip=True)
         match = re.search(r"(\d{1,2}[.,]\d{2})\s?€/kg", texto)
