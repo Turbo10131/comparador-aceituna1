@@ -3,7 +3,7 @@ name: Actualizar precio del aceite
 on:
   schedule:
     - cron: '0 6 * * *'  # Ejecutar todos los días a las 06:00 UTC
-  workflow_dispatch:
+  workflow_dispatch:     # También se puede ejecutar manualmente
 
 jobs:
   actualizar:
@@ -28,8 +28,8 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git pull --rebase
+          git fetch origin
+          git reset --soft origin/main
           git add precio-aceite.json
           git commit -m "Actualizar precio automáticamente"
           git push
-        continue-on-error: false
