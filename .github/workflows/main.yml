@@ -24,12 +24,14 @@ jobs:
       - name: Ejecutar script scraper.py
         run: python scraper.py
 
-      - name: Confirmar y subir cambios
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add precio-aceite.json
-          git commit -m "Actualizar precio automáticamente"
-          git push
-        continue-on-error: false
+     - name: Confirmar y subir cambios
+  run: |
+    git config --global user.name "github-actions"
+    git config --global user.email "github-actions@github.com"
+    git pull --rebase
+    git add precio-aceite.json
+    git commit -m "Actualizar precio automáticamente"
+    git push
+
+
 
