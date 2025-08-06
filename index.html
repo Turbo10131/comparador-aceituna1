@@ -3,55 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Comparador de Precio de Aceituna</title>
-  <style>
-    body { font-family: Arial; padding:20px; background:#f5f5f5;}
-    h1 { color: #2e7d32; }
-    label,input { display:block; margin:10px 0; }
-    #precio-auto,#resultado { margin-top:20px; font-size:18px;}
-    button { padding:8px 16px;background:#2e7d32;color:#fff;border:none;cursor:pointer;}
-  </style>
 </head>
 <body>
   <h1>Comparador de Precio de Aceituna</h1>
 
-  <label for="rendimiento">Rendimiento (%):</label>
-  <input type="number" id="rendimiento" step="0.1" placeholder="Ej: 20">
+  <p><strong>Precio del aceite (€/kg):</strong> <span id="precio">Cargando...</span></p>
+  <p><strong>Fecha de actualización:</strong> <span id="fecha">Cargando...</span></p>
+  <p><strong>Última modificación:</strong> <span id="actualizado">Cargando...</span></p>
 
-  <div id="precio-auto">Cargando precio del aceite...</div>
-
-  <button onclick="calcular()">Calcular precio aceituna</button>
-
-  <div id="resultado"></div>
-
-<script>
-let precioAceite = NaN;
-
-async function fetchPrecio() {
-  try {
-    const resp = await fetch('precio-aceite.json');
-    const data = await resp.json();
-    precioAceite = parseFloat(data.precio);
-    document.getElementById('precio-auto').innerText =
-      `Precio aceite AOVE (€/kg): ${precioAceite.toFixed(3)} € (fecha: ${data.fecha})`;
-  } catch (e) {
-    document.getElementById('precio-auto').innerText =
-      "Error al cargar precio automáticamente.";
-  }
-}
-
-function calcular() {
-  const rend = parseFloat(document.getElementById('rendimiento').value);
-  if (isNaN(rend) || isNaN(precioAceite)) {
-    document.getElementById('resultado').innerText =
-      "Introduce rendimiento válido y espera la carga del precio.";
-    return;
-  }
-  const precioAceituna = (rend / 100) * precioAceite;
-  document.getElementById('resultado').innerHTML =
-    `<strong>Precio por kg de aceituna:</strong> ${precioAceituna.toFixed(2)} €`;
-}
-
-fetchPrecio();
-</script>
+  <script>
+    fetch('precio-aceite.json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('precio').textContent = data.precio + " €";
+        document.getElementById('fecha').textContent = data.fecha;
+        document.getElementById('actualizado').textContent = new Date(data.actualizado).toLocaleString();
+      })
+      .catch(error => {
+        document.getElementById('precio').textContent = "No disponible";
+        document.getElementById('fecha').textContent = "No disponible";
+        document.getElementById('actualizado').textContent = "No disponible";
+      });
+  </script>
 </body>
 </html>
