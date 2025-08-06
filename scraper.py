@@ -14,7 +14,6 @@ def obtener_precio_desde_aove():
         exit(0)
 
     soup = BeautifulSoup(response.text, "html.parser")
-
     posibles_precios = soup.find_all("strong")
     for item in posibles_precios:
         texto = item.get_text(strip=True)
